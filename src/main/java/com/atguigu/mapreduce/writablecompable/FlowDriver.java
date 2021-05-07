@@ -1,4 +1,4 @@
-package com.atguigu.mapreduce.partitioner2;
+package com.atguigu.mapreduce.writablecompable;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
@@ -20,26 +20,15 @@ public class FlowDriver {
         //3 关联 Mapper 和 Reducer
         job.setMapperClass(FlowMapper.class);
         job.setReducerClass(FlowReducer.class);
-
-        //4 设置 Map 端输出 KV 类型
-        job.setMapOutputKeyClass(Text.class);
-        job.setMapOutputValueClass(FlowBean.class);
-
+        //4 设置 Map 端输出数据的 KV 类型
+        job.setMapOutputKeyClass(FlowBean.class);
+        job.setMapOutputValueClass(Text.class);
         //5 设置程序最终输出的 KV 类型
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(FlowBean.class);
-
-        //8 指定自定义分区器---------·-------------------------------partioner的设置
-        job.setPartitionerClass(ProvincePartitioner.class);
-        //9 同时指定相应数量的 ReduceTask
-        job.setNumReduceTasks(5);
-
-
-
-        //6 设置程序的输入输出路径
-        FileInputFormat.setInputPaths(job, new Path("D:\\hadoop_io\\ex_input\\inputflow"));
-        FileOutputFormat.setOutputPath(job, new Path("D:\\hadoop_io\\out\\output1"));
-
+        //6 设置输入输出路径
+        FileInputFormat.setInputPaths(job, new Path("D:\\inputflow2"));
+        FileOutputFormat.setOutputPath(job, new Path("D:\\comparout"));
         //7 提交 Job
         boolean b = job.waitForCompletion(true);
         System.exit(b ? 0 : 1);

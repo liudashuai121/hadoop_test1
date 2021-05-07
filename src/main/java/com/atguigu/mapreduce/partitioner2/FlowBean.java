@@ -49,9 +49,10 @@ public class FlowBean implements Writable {
         this.downFlow = dataInput.readLong();
         this.sumFlow = dataInput.readLong();
     }
-    //5 重写 ToString
+    //5 重写 ToString,g,最后要输出 FlowBean
     @Override
     public String toString() {
         return upFlow + "\t" + downFlow + "\t" + sumFlow;
     }
+
 }

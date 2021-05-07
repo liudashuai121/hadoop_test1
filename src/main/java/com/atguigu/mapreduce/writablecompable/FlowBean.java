@@ -1,10 +1,14 @@
-package com.atguigu.mapreduce.writable;
+package com.atguigu.mapreduce.writablecompable;
+
 import org.apache.hadoop.io.Writable;
+import org.apache.hadoop.io.WritableComparable;
+
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
+
 //1 继承 Writable 接口
-public class FlowBean implements Writable {
+public class FlowBean implements WritableComparable<FlowBean> {
     private long upFlow; //上行流量
     private long downFlow; //下行流量
     private long sumFlow; //总流量
@@ -50,6 +54,22 @@ public class FlowBean implements Writable {
     @Override
     public String toString() {
         return upFlow + "\t" + downFlow + "\t" + sumFlow;
+    }
+
+    @Override
+    public int compareTo(FlowBean o) {
+        //按照总流量比较,倒序排列
+        if(this.sumFlow > o.sumFlow){
+            return -1;
+        }else if(this.sumFlow < o.sumFlow){
+            return 1;
+        }else{
+            if(this.upFlow > o.upFlow){
+                return -1;
+            }else if(this.upFlow < o.upFlow){
+                return 1;}
+            return 0;
+        }
     }
 
 }
